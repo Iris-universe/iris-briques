@@ -6,7 +6,8 @@ Briques Rust réutilisables pour les apps desktop Iris (Rust + Tauri 2, Windows)
 |---|---|
 | [`iris-decode`](crates/iris-decode) | Décode MP3, AAC/M4A, FLAC, WAV, OGG et AIFF en PCM stéréo `f32` (symphonia), puis rééchantillonne (rubato, FFT) |
 | [`iris-store`](crates/iris-store) | JSON lu et écrit de façon atomique, dossiers de données (`%APPDATA%`, Documents, Musique), ouverture d'un dossier ou d'une URL |
-| [`iris-link`](crates/iris-link) | Rend une app Tauri pilotable par un assistant IA via un named pipe (`\\.\pipe\iris-link-<id>`), avec un manifeste d'outils, l'exécution des outils dans la page (`window.irisAgent`) et une capture de la fenêtre en PNG |
+| [`iris-link`](crates/iris-link) | Rend une app Tauri pilotable par un assistant IA via un named pipe (`\\.\pipe\iris-link-<id>`), avec un manifeste d'outils, l'exécution des outils dans la page (`window.irisAgent`) et une capture de la fenêtre en PNG. Module `host` : côté assistant (découverte des apps, outils au format OpenAI Responses, appels avec lancement automatique, questions envoyées par les apps). Profil local facultatif `%APPDATA%\IrisLink\profils\<id>.md`, ajouté aux consignes |
+| [`iris-secrets`](crates/iris-secrets) | Secrets chiffrés pour l'utilisateur Windows courant (DPAPI), et lecture des secrets `safeStorage` d'une ancienne app Electron |
 
 ## Utilisation
 
