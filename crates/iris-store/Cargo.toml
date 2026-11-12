@@ -1,0 +1,11 @@
+[package]
+name = "iris-store"
+version = "0.1.0"
+description = "Petits utilitaires de fichiers : JSON atomique, dossiers de données, ouvrir un dossier/une URL (Windows)"
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+
+[dependencies]
+serde_json = "1"
+dirs = "5"

@@ -1,0 +1,11 @@
+[package]
+name = "iris-decode"
+version = "0.1.0"
+description = "Décodage audio (MP3, AAC/M4A, FLAC, WAV, OGG, AIFF) en PCM stéréo f32 + rééchantillonnage"
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+
+[dependencies]
+symphonia = { version = "0.5", features = ["all"] }
+rubato = "0.15"
