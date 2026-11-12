@@ -7,6 +7,7 @@
 //!   `{ id, kind: "page", tool, args }` -> `window.irisAgent[tool](args)` -> commande `agent_reply`.
 //! - Les outils génériques (`get_screen`, `click`, `type_text`…) arrivent avec `kind: "ui"`.
 //! - `screenshot` et `show_window` sont gérés ici.
+//! - Profil local facultatif `%APPDATA%\IrisLink\profils\<id>.md`, ajouté aux consignes (données perso hors du code).
 //!
 //! ```ignore
 //! tauri::Builder::default()
@@ -17,6 +18,7 @@
 //!     })
 //! ```
 
+pub mod host;
 mod screenshot;
 pub use screenshot::capture as screenshot;
 
@@ -61,11 +63,24 @@ fn root() -> PathBuf {
     dirs::config_dir().unwrap_or_default().join("IrisLink")
 }
 
+/// Profil local de l'utilisateur pour une app (`%APPDATA%\IrisLink\profils\<id>.md`) : niveau, goûts, contexte…
+/// Ajouté aux consignes de l'assistant ; reste sur la machine (jamais dans le code).
+pub fn profile(id: &str) -> Option<String> {
+    std::fs::read_to_string(root().join("profils").join(format!("{id}.md"))).ok().map(|s| s.trim().to_string()).filter(|s| !s.is_empty())
+}
+
 fn manifest(info: &AppInfo) -> Value {
     let exe = std::env::current_exe().unwrap_or_default();
     let cwd = exe.parent().map(|p| p.to_string_lossy().to_string()).unwrap_or_default();
+    let instructions = match profile(info.id) {
+        Some(p) => format!("{}
+
+Profil de l'utilisateur :
+{p}", info.instructions),
+        None => info.instructions.to_string(),
+    };
     json!({
-        "id": info.id, "name": info.name, "description": info.description, "instructions": info.instructions,
+        "id": info.id, "name": info.name, "description": info.description, "instructions": instructions,
         "pid": std::process::id(),
         "launch": { "command": exe.to_string_lossy(), "args": [], "cwd": cwd },
         "tools": info.tools,

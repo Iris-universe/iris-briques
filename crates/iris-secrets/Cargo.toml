@@ -1,0 +1,14 @@
+[package]
+name = "iris-secrets"
+version = "0.1.0"
+description = "Secrets chiffrés pour l'utilisateur Windows courant (DPAPI) + lecture des secrets safeStorage d'une ancienne app Electron"
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+
+[dependencies]
+base64 = "0.22"
+aes-gcm = "0.10"
+serde_json = "1"
+iris-store = { path = "../iris-store" }
+windows-sys = { version = "0.59", features = ["Win32_Foundation", "Win32_Security", "Win32_Security_Cryptography"] }
